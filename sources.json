@@ -1,0 +1,1267 @@
+{
+  "_meta": {
+    "version": 3,
+    "last_discovery": "2026-04-26T01:00:06.937733+00:00",
+    "description": "Intel Media Pulse source registry",
+    "note": "Built from monitored_sources.csv"
+  },
+  "sources": [
+    {
+      "id": "chiportal",
+      "name": "Chiportal",
+      "name_he": "Chiportal",
+      "display_name": "Chiportal",
+      "domain": "chiportal.co.il",
+      "domains": [
+        "chiportal.co.il"
+      ],
+      "rss_url": "https://www.chiportal.co.il/feed/",
+      "category": "semiconductor",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "gadgety",
+      "name": "Gadgety",
+      "name_he": "Gadgety",
+      "display_name": "Gadgety",
+      "domain": "gadgety.co.il",
+      "domains": [
+        "gadgety.co.il"
+      ],
+      "rss_url": "https://gadgety.co.il/feed/",
+      "category": "consumer-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#F59E0B"
+    },
+    {
+      "id": "geektime",
+      "name": "Geektime",
+      "name_he": "גיקטיים",
+      "display_name": "Geektime",
+      "domain": "geektime.co.il",
+      "domains": [
+        "geektime.co.il",
+        "geekmedia.co.il"
+      ],
+      "rss_url": "https://www.geektime.co.il/feed/",
+      "category": "tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#7C3AED"
+    },
+    {
+      "id": "hardwarex",
+      "name": "HardwareX",
+      "name_he": "HardwareX",
+      "display_name": "HardwareX",
+      "domain": "hardwarex.co.il",
+      "domains": [
+        "hardwarex.co.il"
+      ],
+      "rss_url": null,
+      "category": "hardware",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#0891B2"
+    },
+    {
+      "id": "home_theater",
+      "name": "Home Theater",
+      "name_he": "הום תיאטר",
+      "display_name": "Home Theater",
+      "domain": "htmobile.co.il",
+      "domains": [
+        "htmobile.co.il",
+        "hometheater.co.il"
+      ],
+      "rss_url": null,
+      "category": "consumer-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#F59E0B"
+    },
+    {
+      "id": "hwzone",
+      "name": "HWzone",
+      "name_he": "HWzone",
+      "display_name": "HWzone",
+      "domain": "hwzone.co.il",
+      "domains": [
+        "hwzone.co.il"
+      ],
+      "rss_url": "https://hwzone.co.il/feed/",
+      "category": "hardware",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#0891B2"
+    },
+    {
+      "id": "ign_israel",
+      "name": "IGN Israel",
+      "name_he": "IGN ישראל",
+      "display_name": "IGN Israel",
+      "domain": "ign.com",
+      "domains": [
+        "ign.com",
+        "il.ign.com"
+      ],
+      "rss_url": null,
+      "category": "gaming",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#EC4899"
+    },
+    {
+      "id": "ittime",
+      "name": "ITtime",
+      "name_he": "ITtime",
+      "display_name": "ITtime",
+      "domain": "ittime.co.il",
+      "domains": [
+        "ittime.co.il"
+      ],
+      "rss_url": null,
+      "category": "enterprise-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#6366F1"
+    },
+    {
+      "id": "techtime",
+      "name": "TechTime",
+      "name_he": "TechTime",
+      "display_name": "TechTime",
+      "domain": "techtime.co.il",
+      "domains": [
+        "techtime.co.il"
+      ],
+      "rss_url": "https://techtime.co.il/feed/",
+      "category": "semiconductor",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "tgspot",
+      "name": "TGspot",
+      "name_he": "TGspot",
+      "display_name": "TGspot",
+      "domain": "tgspot.co.il",
+      "domains": [
+        "tgspot.co.il"
+      ],
+      "rss_url": null,
+      "category": "tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#7C3AED"
+    },
+    {
+      "id": "theverifier",
+      "name": "The Verifier",
+      "name_he": "The Verifier",
+      "display_name": "The Verifier",
+      "domain": "theverifier.co.il",
+      "domains": [
+        "theverifier.co.il"
+      ],
+      "rss_url": "https://www.theverifier.co.il/feed/",
+      "category": "tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#7C3AED"
+    },
+    {
+      "id": "themarker",
+      "name": "TheMarker",
+      "name_he": "דה מרקר",
+      "display_name": "TheMarker",
+      "domain": "themarker.com",
+      "domains": [
+        "themarker.com"
+      ],
+      "rss_url": "https://www.themarker.com/srv/rss?pageName=HiTech",
+      "category": "finance",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#2563EB"
+    },
+    {
+      "id": "tml_gaming",
+      "name": "TML Gaming",
+      "name_he": "TML Gaming",
+      "display_name": "TML Gaming",
+      "domain": "tml.co.il",
+      "domains": [
+        "tml.co.il"
+      ],
+      "rss_url": null,
+      "category": "gaming",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#EC4899"
+    },
+    {
+      "id": "vgames",
+      "name": "Vgames",
+      "name_he": "Vgames",
+      "display_name": "Vgames",
+      "domain": "vgames.co.il",
+      "domains": [
+        "vgames.co.il"
+      ],
+      "rss_url": null,
+      "category": "gaming",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#EC4899"
+    },
+    {
+      "id": "wisebuy",
+      "name": "Wisebuy",
+      "name_he": "Wisebuy",
+      "display_name": "Wisebuy",
+      "domain": "wisebuy.co.il",
+      "domains": [
+        "wisebuy.co.il"
+      ],
+      "rss_url": null,
+      "category": "consumer-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#F59E0B"
+    },
+    {
+      "id": "y4pc",
+      "name": "Y4PC",
+      "name_he": "Y4PC",
+      "display_name": "Y4PC",
+      "domain": "y4pc.co.il",
+      "domains": [
+        "y4pc.co.il"
+      ],
+      "rss_url": null,
+      "category": "consumer-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#F59E0B"
+    },
+    {
+      "id": "ynet",
+      "name": "Ynet",
+      "name_he": "Ynet",
+      "display_name": "Ynet",
+      "domain": "ynet.co.il",
+      "domains": [
+        "ynet.co.il",
+        "ynetnews.com"
+      ],
+      "rss_url": "https://www.ynet.co.il/Integration/StoryRss2.xml",
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "ice",
+      "name": "אייס",
+      "name_he": "אייס",
+      "display_name": "אייס",
+      "domain": "ice.co.il",
+      "domains": [
+        "ice.co.il"
+      ],
+      "rss_url": "https://www.ice.co.il/rss",
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "pc_co_il",
+      "name": "אנשים ומחשבים",
+      "name_he": "אנשים ומחשבים",
+      "display_name": "אנשים ומחשבים",
+      "domain": "pc.co.il",
+      "domains": [
+        "pc.co.il"
+      ],
+      "rss_url": "https://www.pc.co.il/feed/",
+      "category": "enterprise-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#6366F1"
+    },
+    {
+      "id": "girafa",
+      "name": "ג'ירפה",
+      "name_he": "ג'ירפה",
+      "display_name": "ג'ירפה",
+      "domain": "girafa.co.il",
+      "domains": [
+        "girafa.co.il"
+      ],
+      "rss_url": null,
+      "category": "consumer-tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#F59E0B"
+    },
+    {
+      "id": "globes",
+      "name": "גלובס",
+      "name_he": "גלובס",
+      "display_name": "גלובס",
+      "domain": "globes.co.il",
+      "domains": [
+        "globes.co.il"
+      ],
+      "rss_url": "https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=585",
+      "category": "finance",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#2563EB"
+    },
+    {
+      "id": "bizportal",
+      "name": "ביזפורטל",
+      "name_he": "ביזפורטל",
+      "display_name": "ביזפורטל",
+      "domain": "bizportal.co.il",
+      "domains": [
+        "bizportal.co.il"
+      ],
+      "rss_url": null,
+      "category": "finance",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#2563EB"
+    },
+    {
+      "id": "investing_il",
+      "name": "Investing ישראל",
+      "name_he": "אינווסטינג",
+      "display_name": "Investing",
+      "domain": "il.investing.com",
+      "domains": [
+        "il.investing.com",
+        "investing.com"
+      ],
+      "rss_url": null,
+      "category": "finance",
+      "country": "IL",
+      "language": "he",
+      "active": false,
+      "color": "#2563EB"
+    },
+    {
+      "id": "investing_br_itlc34",
+      "name": "Investing Brasil ITLC34",
+      "name_he": "Investing Brasil ITLC34",
+      "display_name": "Investing BR ITLC34",
+      "aliases": [
+        "ITLC34",
+        "Intel Corp BDR"
+      ],
+      "domain": "br.investing.com",
+      "domains": [
+        "br.investing.com"
+      ],
+      "rss_url": null,
+      "category": "finance",
+      "country": "BR",
+      "language": "pt",
+      "active": false,
+      "color": "#2563EB"
+    },
+    {
+      "id": "news_google_com",
+      "name": "גלובס",
+      "name_he": "גלובס",
+      "display_name": "גלובס",
+      "domain": "news.google.com",
+      "domains": [
+        "news.google.com"
+      ],
+      "rss_url": null,
+      "category": "discovered",
+      "country": "IL",
+      "language": "unknown",
+      "active": true,
+      "color": "#6b7280"
+    },
+    {
+      "id": "walla",
+      "name": "וואלה",
+      "name_he": "וואלה",
+      "display_name": "וואלה",
+      "domain": "walla.co.il",
+      "domains": [
+        "walla.co.il",
+        "tech.walla.co.il"
+      ],
+      "rss_url": "https://rss.walla.co.il/feed/22",
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "technpeople",
+      "name": "טכנולוגיה ואנשים",
+      "name_he": "טכנולוגיה ואנשים",
+      "display_name": "טכנולוגיה ואנשים",
+      "domain": "technpeople.co.il",
+      "domains": [
+        "technpeople.co.il"
+      ],
+      "rss_url": null,
+      "category": "tech",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#7C3AED"
+    },
+    {
+      "id": "yediot",
+      "name": "ידיעות אחרונות",
+      "name_he": "ידיעות אחרונות",
+      "display_name": "ידיעות אחרונות",
+      "domain": "yediot.co.il",
+      "domains": [
+        "yediot.co.il"
+      ],
+      "rss_url": null,
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "israelhayom",
+      "name": "ישראל היום",
+      "name_he": "ישראל היום",
+      "display_name": "ישראל היום",
+      "aliases": [
+        "היום",
+        "Israel Hayom"
+      ],
+      "domain": "israelhayom.co.il",
+      "domains": [
+        "israelhayom.co.il"
+      ],
+      "rss_url": "https://www.israelhayom.co.il/rss.xml",
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "calcalist",
+      "name": "כלכליסט / CTech",
+      "name_he": "כלכליסט",
+      "display_name": "כלכליסט / CTech",
+      "domain": "calcalist.co.il",
+      "domains": [
+        "calcalist.co.il",
+        "ctech.com"
+      ],
+      "rss_url": "https://www.calcalist.co.il/rss/AjaxPage,7340,203,00.xml",
+      "category": "finance",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#2563EB"
+    },
+    {
+      "id": "mako",
+      "name": "מאקו",
+      "name_he": "מאקו",
+      "display_name": "מאקו",
+      "domain": "mako.co.il",
+      "domains": [
+        "mako.co.il"
+      ],
+      "rss_url": "https://rcs.mako.co.il/rss/technology.xml",
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "maariv",
+      "name": "מעריב",
+      "name_he": "מעריב",
+      "display_name": "מעריב",
+      "domain": "maariv.co.il",
+      "domains": [
+        "maariv.co.il"
+      ],
+      "rss_url": "https://www.maariv.co.il/Rss/RssChadashot",
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "channel10_economy",
+      "name": "ערוץ הכלכלה",
+      "name_he": "ערוץ הכלכלה",
+      "display_name": "ערוץ הכלכלה",
+      "domain": "10.tv.co.il",
+      "domains": [
+        "10.tv.co.il"
+      ],
+      "rss_url": null,
+      "category": "general",
+      "country": "IL",
+      "language": "he",
+      "active": true,
+      "color": "#64748B"
+    },
+    {
+      "id": "maritime-executive_com",
+      "name": "maritime-executive.com",
+      "name_he": "maritime-executive.com",
+      "display_name": "maritime-executive.com",
+      "domain": "maritime-executive.com",
+      "domains": [
+        "maritime-executive.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "markets_businessinsider_com",
+      "name": "markets.businessinsider.com",
+      "name_he": "markets.businessinsider.com",
+      "display_name": "markets.businessinsider.com",
+      "domain": "markets.businessinsider.com",
+      "domains": [
+        "markets.businessinsider.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "markets_ft_com",
+      "name": "markets.ft.com",
+      "name_he": "markets.ft.com",
+      "display_name": "markets.ft.com",
+      "domain": "markets.ft.com",
+      "domains": [
+        "markets.ft.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "jpost_com",
+      "name": "jpost.com",
+      "name_he": "jpost.com",
+      "display_name": "jpost.com",
+      "domain": "jpost.com",
+      "domains": [
+        "jpost.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "businessinsider_com",
+      "name": "businessinsider.com",
+      "name_he": "businessinsider.com",
+      "display_name": "businessinsider.com",
+      "domain": "businessinsider.com",
+      "domains": [
+        "businessinsider.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "tech_einnews_com",
+      "name": "tech.einnews.com",
+      "name_he": "tech.einnews.com",
+      "display_name": "tech.einnews.com",
+      "domain": "tech.einnews.com",
+      "domains": [
+        "tech.einnews.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "sg_finance_yahoo_com",
+      "name": "sg.finance.yahoo.com",
+      "name_he": "sg.finance.yahoo.com",
+      "display_name": "sg.finance.yahoo.com",
+      "domain": "sg.finance.yahoo.com",
+      "domains": [
+        "sg.finance.yahoo.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "thefacts_com",
+      "name": "thefacts.com",
+      "name_he": "thefacts.com",
+      "display_name": "thefacts.com",
+      "domain": "thefacts.com",
+      "domains": [
+        "thefacts.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "stocktitan_net",
+      "name": "stocktitan.net",
+      "name_he": "stocktitan.net",
+      "display_name": "stocktitan.net",
+      "domain": "stocktitan.net",
+      "domains": [
+        "stocktitan.net"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "corsicanadailysun_com",
+      "name": "corsicanadailysun.com",
+      "name_he": "corsicanadailysun.com",
+      "display_name": "corsicanadailysun.com",
+      "domain": "corsicanadailysun.com",
+      "domains": [
+        "corsicanadailysun.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "weatherforddemocrat_com",
+      "name": "weatherforddemocrat.com",
+      "name_he": "weatherforddemocrat.com",
+      "display_name": "weatherforddemocrat.com",
+      "domain": "weatherforddemocrat.com",
+      "domains": [
+        "weatherforddemocrat.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "joplinglobe_com",
+      "name": "joplinglobe.com",
+      "name_he": "joplinglobe.com",
+      "display_name": "joplinglobe.com",
+      "domain": "joplinglobe.com",
+      "domains": [
+        "joplinglobe.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "manufacturingglobal_com",
+      "name": "manufacturingglobal.com",
+      "name_he": "manufacturingglobal.com",
+      "display_name": "manufacturingglobal.com",
+      "domain": "manufacturingglobal.com",
+      "domains": [
+        "manufacturingglobal.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "esgnews_com",
+      "name": "esgnews.com",
+      "name_he": "esgnews.com",
+      "display_name": "esgnews.com",
+      "domain": "esgnews.com",
+      "domains": [
+        "esgnews.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "pehub_com",
+      "name": "pehub.com",
+      "name_he": "pehub.com",
+      "display_name": "pehub.com",
+      "domain": "pehub.com",
+      "domains": [
+        "pehub.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "solarquarter_com",
+      "name": "solarquarter.com",
+      "name_he": "solarquarter.com",
+      "display_name": "solarquarter.com",
+      "domain": "solarquarter.com",
+      "domains": [
+        "solarquarter.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "haaretz_com",
+      "name": "haaretz.com",
+      "name_he": "haaretz.com",
+      "display_name": "haaretz.com",
+      "domain": "haaretz.com",
+      "domains": [
+        "haaretz.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "foxnews_com",
+      "name": "foxnews.com",
+      "name_he": "foxnews.com",
+      "display_name": "foxnews.com",
+      "domain": "foxnews.com",
+      "domains": [
+        "foxnews.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "timesofisrael_com",
+      "name": "timesofisrael.com",
+      "name_he": "timesofisrael.com",
+      "display_name": "timesofisrael.com",
+      "domain": "timesofisrael.com",
+      "domains": [
+        "timesofisrael.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "apnews_com",
+      "name": "apnews.com",
+      "name_he": "apnews.com",
+      "display_name": "apnews.com",
+      "domain": "apnews.com",
+      "domains": [
+        "apnews.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "nbcnews_com",
+      "name": "nbcnews.com",
+      "name_he": "nbcnews.com",
+      "display_name": "nbcnews.com",
+      "domain": "nbcnews.com",
+      "domains": [
+        "nbcnews.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "theregister_com",
+      "name": "theregister.com",
+      "name_he": "theregister.com",
+      "display_name": "theregister.com",
+      "domain": "theregister.com",
+      "domains": [
+        "theregister.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "reuters_com",
+      "name": "reuters.com",
+      "name_he": "reuters.com",
+      "display_name": "reuters.com",
+      "domain": "reuters.com",
+      "domains": [
+        "reuters.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "investors_com",
+      "name": "investors.com",
+      "name_he": "investors.com",
+      "display_name": "investors.com",
+      "domain": "investors.com",
+      "domains": [
+        "investors.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "fool_com",
+      "name": "fool.com",
+      "name_he": "fool.com",
+      "display_name": "fool.com",
+      "domain": "fool.com",
+      "domains": [
+        "fool.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "gizmodo_com",
+      "name": "gizmodo.com",
+      "name_he": "gizmodo.com",
+      "display_name": "gizmodo.com",
+      "domain": "gizmodo.com",
+      "domains": [
+        "gizmodo.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "investopedia_com",
+      "name": "investopedia.com",
+      "name_he": "investopedia.com",
+      "display_name": "investopedia.com",
+      "domain": "investopedia.com",
+      "domains": [
+        "investopedia.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "notebookcheck_net",
+      "name": "notebookcheck.net",
+      "name_he": "notebookcheck.net",
+      "display_name": "notebookcheck.net",
+      "domain": "notebookcheck.net",
+      "domains": [
+        "notebookcheck.net"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "pcgamer_com",
+      "name": "pcgamer.com",
+      "name_he": "pcgamer.com",
+      "display_name": "pcgamer.com",
+      "domain": "pcgamer.com",
+      "domains": [
+        "pcgamer.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "designdevelopmenttoday_com",
+      "name": "designdevelopmenttoday.com",
+      "name_he": "designdevelopmenttoday.com",
+      "display_name": "designdevelopmenttoday.com",
+      "domain": "designdevelopmenttoday.com",
+      "domains": [
+        "designdevelopmenttoday.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "pcmag_com",
+      "name": "pcmag.com",
+      "name_he": "pcmag.com",
+      "display_name": "pcmag.com",
+      "domain": "pcmag.com",
+      "domains": [
+        "pcmag.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "wired_com",
+      "name": "wired.com",
+      "name_he": "wired.com",
+      "display_name": "wired.com",
+      "domain": "wired.com",
+      "domains": [
+        "wired.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "techpowerup_com",
+      "name": "techpowerup.com",
+      "name_he": "techpowerup.com",
+      "display_name": "techpowerup.com",
+      "domain": "techpowerup.com",
+      "domains": [
+        "techpowerup.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "israelnationalnews_com",
+      "name": "israelnationalnews.com",
+      "name_he": "israelnationalnews.com",
+      "display_name": "israelnationalnews.com",
+      "domain": "israelnationalnews.com",
+      "domains": [
+        "israelnationalnews.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "finance_yahoo_com",
+      "name": "finance.yahoo.com",
+      "name_he": "finance.yahoo.com",
+      "display_name": "finance.yahoo.com",
+      "domain": "finance.yahoo.com",
+      "domains": [
+        "finance.yahoo.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "intc_com",
+      "name": "intc.com",
+      "name_he": "intc.com",
+      "display_name": "intc.com",
+      "domain": "intc.com",
+      "domains": [
+        "intc.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "globenewswire_com",
+      "name": "globenewswire.com",
+      "name_he": "globenewswire.com",
+      "display_name": "globenewswire.com",
+      "domain": "globenewswire.com",
+      "domains": [
+        "globenewswire.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "marinelink_com",
+      "name": "marinelink.com",
+      "name_he": "marinelink.com",
+      "display_name": "marinelink.com",
+      "domain": "marinelink.com",
+      "domains": [
+        "marinelink.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "seatrade-maritime_com",
+      "name": "seatrade-maritime.com",
+      "name_he": "seatrade-maritime.com",
+      "display_name": "seatrade-maritime.com",
+      "domain": "seatrade-maritime.com",
+      "domains": [
+        "seatrade-maritime.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "cnet_com",
+      "name": "cnet.com",
+      "name_he": "cnet.com",
+      "display_name": "cnet.com",
+      "domain": "cnet.com",
+      "domains": [
+        "cnet.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "wccftech_com",
+      "name": "wccftech.com",
+      "name_he": "wccftech.com",
+      "display_name": "wccftech.com",
+      "domain": "wccftech.com",
+      "domains": [
+        "wccftech.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    },
+    {
+      "id": "forbes_com",
+      "name": "forbes.com",
+      "name_he": "forbes.com",
+      "display_name": "forbes.com",
+      "domain": "forbes.com",
+      "domains": [
+        "forbes.com"
+      ],
+      "rss_url": null,
+      "color": "#6b7280",
+      "category": "discovered",
+      "country": "unknown",
+      "language": "unknown",
+      "active": true,
+      "discovery_method": "tavily"
+    }
+  ]
+}

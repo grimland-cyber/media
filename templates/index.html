@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intel Media Pulse — ניטור מדיה</title>
+  <meta name="description" content="לוח ניטור כיסוי מדיה של אינטל בישראל ובעולם" />
+  <meta name="robots" content="noindex" />
+
+  <!-- Heebo — Hebrew-optimised sans-serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS — Intel Brand + Warm Gray System
+    ============================================================ */
+    :root {
+      /* Intel Blue gradient palette */
+      --intel-blue:        #0071c5;
+      --intel-blue-dark:   #004a9e;
+      --intel-blue-deeper: #003370;
+      --intel-blue-light:  #e8f2fb;
+      --intel-blue-mid:    #cce1f6;
+      --intel-cyan:        #00c7fd;
+
+      /* Warm-gray surfaces */
+      --bg:         #f4f3f0;
+      --surface:    #faf9f7;
+      --surface-2:  #ffffff;
+      --surface-off:#eeece8;
+      --border:     #dedad4;
+      --divider:    #e8e5e0;
+
+      /* Text */
+      --text:       #1a1814;
+      --text-muted: #6b6862;
+      --text-faint: #a8a49e;
+      --text-inv:   #ffffff;
+
+      /* Accents */
+      --success:    #16a34a;
+      --warning:    #d97706;
+      --error:      #dc2626;
+      --up-color:   #16a34a;
+      --down-color: #dc2626;
+
+      /* Spacing (4px grid) */
+      --sp-1: 0.25rem;
+      --sp-2: 0.5rem;
+      --sp-3: 0.75rem;
+      --sp-4: 1rem;
+      --sp-5: 1.25rem;
+      --sp-6: 1.5rem;
+      --sp-8: 2rem;
+      --sp-10: 2.5rem;
+      --sp-12: 3rem;
+
+      /* Type scale */
+      --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+
+      /* Radii */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 16px;
+      --r-xl: 22px;
+
+      /* Shadows */
+      --sh-sm: 0 1px 3px rgba(0,0,0,.07);
+      --sh-md: 0 4px 14px rgba(0,0,0,.09);
+      --sh-lg: 0 10px 32px rgba(0,0,0,.12);
+
+      /* Transitions */
+      --t: 180ms cubic-bezier(0.16,1,0.3,1);
+
+      /* Layout */
+      --topbar-h: 60px;
+      --sidebar-w: 260px;
+      --content-max: 1100px;
+    }
+
+    /* Dark mode */
+    [data-theme="dark"] {
+      --bg:         #151412;
+      --surface:    #1c1a17;
+      --surface-2:  #212018;
+      --surface-off:#1a1814;
+      --border:     #2e2c28;
+      --divider:    #252320;
+      --text:       #e8e6e2;
+      --text-muted: #908e88;
+      --text-faint: #5a5854;
+      --text-inv:   #ffffff;
+      --intel-blue-light: #0d2040;
+      --intel-blue-mid:   #1a3a5c;
+      --sh-sm: 0 1px 3px rgba(0,0,0,.3);
+      --sh-md: 0 4px 14px rgba(0,0,0,.4);
+      --sh-lg: 0 10px 32px rgba(0,0,0,.5);
+    }
+
+    /* ============================================================
+       BASE RESET
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      font-family: 'Heebo', 'Arial Hebrew', 'David', sans-serif;
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100dvh;
+      direction: rtl;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    ul[role="list"], ol[role="list"] { list-style: none; }
+    h1,h2,h3,h4,h5,h6 { text-wrap: balance; line-height: 1.2; }
+    p, li { text-wrap: pretty; }
+    ::selection { background: rgba(0,113,197,.2); }
+    :focus-visible { outline: 2px solid var(--intel-blue); outline-offset: 3px; border-radius: var(--r-sm); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border-width: 0;
+    }
+
+    /* ============================================================
+       TOP BAR
+    ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--topbar-h);
+      background: linear-gradient(135deg, var(--intel-blue-deeper) 0%, var(--intel-blue-dark) 40%, var(--intel-blue) 100%);
+      box-shadow: 0 2px 16px rgba(0,0,0,.25);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--sp-6);
+      gap: var(--sp-6);
+    }
+
+    /* Intel-inspired logo mark (inline SVG) */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: var(--text-lg);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .logo-text span {
+      color: var(--intel-cyan);
+    }
+
+    .topbar-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .topbar-title {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: rgba(255,255,255,.75);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      flex-shrink: 0;
+    }
+
+    .btn-refresh {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-4);
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: var(--r-xl);
+      color: #fff;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      transition: background var(--t), border-color var(--t);
+    }
+    .btn-refresh:hover {
+      background: rgba(255,255,255,.25);
+      border-color: rgba(255,255,255,.4);
+    }
+    .btn-refresh:active { transform: scale(0.97); }
+    .btn-refresh.spinning .icon-refresh { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-theme {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      transition: background var(--t);
+    }
+    .btn-theme:hover { background: rgba(255,255,255,.22); }
+
+    /* Last updated */
+    .last-updated {
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,.6);
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .page-wrapper {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: var(--sp-8) var(--sp-6) var(--sp-12);
+    }
+
+    /* ============================================================
+       STATS STRIP
+    ============================================================ */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-6);
+    }
+    @media (max-width: 700px) {
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5) var(--sp-6);
+      box-shadow: var(--sh-sm);
+      transition: box-shadow var(--t);
+    }
+    .stat-card:hover { box-shadow: var(--sh-md); }
+
+    .stat-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--sp-2);
+    }
+    .stat-value {
+      font-size: var(--text-xl);
+      font-weight: 800;
+      color: var(--intel-blue);
+      line-height: 1;
+      margin-bottom: var(--sp-2);
+    }
+    [data-theme="dark"] .stat-value { color: #5ab0f0; }
+
+    .stat-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--r-xl);
+    }
+    .stat-trend.up   { color: var(--up-color);   background: rgba(22,163,74,.1); }
+    .stat-trend.down { color: var(--down-color);  background: rgba(220,38,38,.1); }
+    .stat-trend.flat { color: var(--text-muted);  background: var(--surface-off); }
+
+    /* ============================================================
+       ADMIN KPI STRIP
+    ============================================================ */
+    .admin-kpi-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: 6px 12px;
+      margin: 0 0 8px;
+      background: var(--surface-off);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .kpi-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .kpi-sep { opacity: 0.35; }
+    .kpi-refresh-running { color: var(--accent); font-weight: 600; }
+    .icon-spin { animation: spin 1s linear infinite; }
+
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-6);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+    }
+    .filter-group-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      padding: 5px 14px;
+      border-radius: var(--r-xl);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background var(--t), border-color var(--t), color var(--t), box-shadow var(--t);
+      white-space: nowrap;
+    }
+    .chip:hover {
+      background: var(--intel-blue-light);
+      border-color: var(--intel-blue);
+      color: var(--intel-blue);
+      box-shadow: var(--sh-sm);
+    }
+    .chip.active {
+      background: var(--intel-blue);
+      border-color: var(--intel-blue-dark);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,113,197,.3);
+    }
+    [data-theme="dark"] .chip:hover {
+      background: rgba(0,113,197,.2);
+      border-color: #5ab0f0;
+      color: #5ab0f0;
+    }
+    [data-theme="dark"] .chip.active {
+      background: #004a9e;
+      border-color: #0071c5;
+      color: #fff;
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 22px;
+      background: var(--border);
+      margin: 0 var(--sp-2);
+    }
+
+    /* Source chips with color dots */
+    .chip .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       FEED
+    ============================================================ */
+    #feed-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ---- Day separator ---- */
+    .day-separator {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-6) 0 var(--sp-4);
+    }
+    .day-separator::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--divider);
+    }
+    .day-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* ---- HERO card ---- */
+    .card-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      box-shadow: var(--sh-sm);
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      margin-bottom: var(--sp-4);
+      transition: box-shadow var(--t), transform var(--t);
+      cursor: pointer;
+    }
+    .card-hero:hover {
+      box-shadow: var(--sh-lg);
+      transform: translateY(-2px);
+    }
+    @media (max-width: 780px) {
+      .card-hero { grid-template-columns: 1fr; }
+    }
+
+    .card-hero .card-body {
+      padding: var(--sp-8);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--sp-4);
+    }
+    .card-hero .card-img {
+      position: relative;
+      overflow: hidden;
+      background: var(--surface-off);
+    }
+    .card-hero .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--t);
+    }
+    .card-hero:hover .card-img img { transform: scale(1.03); }
+    .card-hero .card-img .img-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-title {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .card-hero .card-title {
+      font-size: clamp(1.1rem, 1rem + 0.5vw, 1.5rem);
+    }
+    .card-desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: 1.55;
+      /* Clamp to 3 lines */
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--r-xl);
+      background: var(--intel-blue-light);
+      color: var(--intel-blue);
+      border: 1px solid var(--intel-blue-mid);
+    }
+    [data-theme="dark"] .source-badge {
+      background: rgba(0,113,197,.15);
+      color: #5ab0f0;
+      border-color: rgba(0,113,197,.3);
+    }
+    .time-badge {
+      font-size: var(--text-xs);
+      color: var(--text-faint);
+    }
+    .via-badge {
+      font-size: var(--text-xs);
+      color: var(--text-faint);
+      opacity: 0.7;
+    }
+
+    /* ---- GRID row (3 cards) ---- */
+    .card-grid-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-4);
+    }
+    @media (max-width: 900px) {
+      .card-grid-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .card-grid-row { grid-template-columns: 1fr; }
+    }
+
+    .card-grid {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: var(--sh-sm);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow var(--t), transform var(--t);
+      cursor: pointer;
+    }
+    .card-grid:hover {
+      box-shadow: var(--sh-md);
+      transform: translateY(-2px);
+    }
+    .card-grid .card-img-top {
+      height: 140px;
+      overflow: hidden;
+      background: var(--surface-off);
+      position: relative;
+    }
+    .card-grid .card-img-top img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--t);
+    }
+    .card-grid:hover .card-img-top img { transform: scale(1.04); }
+    .card-grid .card-body {
+      padding: var(--sp-5);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .card-grid .card-title {
+      font-size: var(--text-base);
+      font-weight: 700;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ---- COMPACT card ---- */
+    .card-compact {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-4);
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--sh-sm);
+      cursor: pointer;
+      transition: background var(--t), box-shadow var(--t);
+      margin-bottom: var(--sp-2);
+    }
+    .card-compact:hover {
+      background: var(--surface-2);
+      box-shadow: var(--sh-md);
+    }
+    .card-compact .compact-img {
+      width: 72px;
+      height: 72px;
+      border-radius: var(--r-md);
+      overflow: hidden;
+      background: var(--surface-off);
+      flex-shrink: 0;
+    }
+    .card-compact .compact-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card-compact .compact-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .card-compact .card-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ---- Load more / End ---- */
+    .load-more-wrap {
+      display: flex;
+      justify-content: center;
+      padding: var(--sp-8) 0;
+    }
+    .btn-load-more {
+      padding: var(--sp-3) var(--sp-8);
+      border-radius: var(--r-xl);
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      transition: background var(--t), border-color var(--t), color var(--t);
+    }
+    .btn-load-more:hover {
+      background: var(--intel-blue-light);
+      border-color: var(--intel-blue);
+      color: var(--intel-blue);
+    }
+
+    /* ============================================================
+       LOADING / EMPTY / ERROR STATES
+    ============================================================ */
+    .state-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-12) var(--sp-8);
+      gap: var(--sp-5);
+      text-align: center;
+      min-height: 300px;
+    }
+    .state-icon { opacity: 0.35; }
+    .state-title {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text);
+    }
+    .state-sub {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      max-width: 42ch;
+    }
+
+    /* Skeleton cards */
+    .skeleton-feed {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .skeleton-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      display: flex;
+      gap: var(--sp-5);
+    }
+    .skel {
+      background: linear-gradient(90deg, var(--surface-off) 25%, var(--divider) 50%, var(--surface-off) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: var(--r-sm);
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+    .skel-img  { width: 80px; height: 80px; border-radius: var(--r-md); flex-shrink: 0; }
+    .skel-body { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); }
+    .skel-line { height: 14px; }
+    .skel-line.w-full { width: 100%; }
+    .skel-line.w-3-4  { width: 75%; }
+    .skel-line.w-1-2  { width: 50%; }
+    .skel-line.w-1-4  { width: 25%; }
+
+    /* Spinning loader */
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--intel-blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    /* ============================================================
+       NOTICE BAR (no key / errors)
+    ============================================================ */
+    .notice-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3) var(--sp-5);
+      border-radius: var(--r-md);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      margin-bottom: var(--sp-5);
+      border: 1px solid;
+    }
+    .notice-bar.info {
+      background: var(--intel-blue-light);
+      border-color: var(--intel-blue-mid);
+      color: var(--intel-blue);
+    }
+    .notice-bar.warn {
+      background: rgba(217,119,6,.08);
+      border-color: rgba(217,119,6,.3);
+      color: var(--warning);
+    }
+    .notice-bar.err {
+      background: rgba(220,38,38,.08);
+      border-color: rgba(220,38,38,.3);
+      color: var(--error);
+    }
+    [data-theme="dark"] .notice-bar.info {
+      background: rgba(0,113,197,.12);
+      border-color: rgba(0,113,197,.3);
+      color: #5ab0f0;
+    }
+
+    /* ============================================================
+       IMAGE PLACEHOLDER PATTERN
+    ============================================================ */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--surface-off),
+        var(--surface-off) 4px,
+        var(--divider) 4px,
+        var(--divider) 8px
+      );
+      color: var(--text-faint);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .page-footer {
+      text-align: center;
+      padding: var(--sp-6) 0 var(--sp-10);
+      font-size: var(--text-xs);
+      color: var(--text-faint);
+    }
+
+    /* ============================================================
+       RESPONSIVE TWEAKS
+    ============================================================ */
+    @media (max-width: 600px) {
+      .page-wrapper { padding: var(--sp-5) var(--sp-4) var(--sp-10); }
+      .topbar { padding: 0 var(--sp-4); }
+      .topbar-title { display: none; }
+      .card-hero .card-body { padding: var(--sp-5); }
+      .last-updated { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================================================================
+  TOP BAR
+=================================================================== -->
+<header class="topbar" role="banner">
+  <!-- Logo -->
+  <div class="logo-wrap" aria-label="Intel Media Pulse">
+    <!-- Inline SVG Intel-inspired mark -->
+    <svg aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer ring -->
+      <circle cx="17" cy="17" r="16" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+      <!-- Bold I letterform inside a rounded square -->
+      <rect x="6" y="6" width="22" height="22" rx="5" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <!-- Top bar of I -->
+      <rect x="10" y="10.5" width="14" height="3" rx="1.5" fill="white"/>
+      <!-- Stem of I -->
+      <rect x="14.5" y="13.5" width="5" height="7" rx="1" fill="white"/>
+      <!-- Bottom bar of I -->
+      <rect x="10" y="20.5" width="14" height="3" rx="1.5" fill="white"/>
+      <!-- Small accent dot — cyan -->
+      <circle cx="27" cy="7" r="3.5" fill="#00c7fd"/>
+    </svg>
+    <span class="logo-text">Intel <span>Media</span> Pulse</span>
+  </div>
+
+  <div class="topbar-center" aria-hidden="true">
+    <span class="topbar-title">ניטור כיסוי מדיה — אינטל ישראל</span>
+  </div>
+
+  <div class="topbar-actions">
+    <span class="last-updated" id="last-updated-text" aria-live="polite"></span>
+
+    <button
+      class="btn-refresh"
+      id="btn-refresh"
+      aria-label="רענן נתונים"
+      title="רענן איסוף מאמרים"
+    >
+      <svg class="icon-refresh" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+        <path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+      </svg>
+      רענן
+    </button>
+
+    <button
+      class="btn-theme"
+      data-theme-toggle
+      aria-label="שנה ערכת צבעים"
+      title="מצב בהיר / כהה"
+    >
+      <!-- Sun icon (default, will update via JS) -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- ===================================================================
+  MAIN CONTENT
+=================================================================== -->
+<main class="page-wrapper" role="main">
+
+  <!-- Notice bar (hidden by default, shown when needed) -->
+  <div class="notice-bar info" id="notice-bar" role="alert" aria-live="polite" style="display:none">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+    </svg>
+    <span id="notice-text"></span>
+  </div>
+
+  <!-- Stats strip -->
+  <section class="stats-strip" aria-label="סטטיסטיקות">
+    <div class="stat-card" data-testid="stat-today">
+      <div class="stat-label">כתבות היום</div>
+      <div class="stat-value" id="stat-today">—</div>
+      <span class="stat-trend flat" id="trend-today">טוען…</span>
+    </div>
+    <div class="stat-card" data-testid="stat-week">
+      <div class="stat-label">כתבות השבוע</div>
+      <div class="stat-value" id="stat-week">—</div>
+      <span class="stat-trend flat" id="trend-week-secondary">טוען…</span>
+    </div>
+    <div class="stat-card" data-testid="stat-month">
+      <div class="stat-label">כתבות החודש</div>
+      <div class="stat-value" id="stat-month">—</div>
+      <span class="stat-trend flat" id="trend-month">טוען…</span>
+    </div>
+    <div class="stat-card" data-testid="stat-trend-main">
+      <div class="stat-label">שינוי מגמה</div>
+      <div class="stat-value" id="stat-trend-value">—</div>
+      <span class="stat-trend flat" id="trend-week">טוען…</span>
+    </div>
+  </section>
+
+  <!-- Admin KPI strip -->
+  <section class="admin-kpi-strip" id="admin-kpi-strip" aria-label="מידע ניהולי">
+    <span class="kpi-item" title="מקורות מנוטרים">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      <span id="kpi-sources">—</span> מקורות
+    </span>
+    <span class="kpi-sep" aria-hidden="true">·</span>
+    <span class="kpi-item" title="כיסוי תמונות">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <span id="kpi-img-coverage">—</span>% תמונות
+    </span>
+    <span class="kpi-sep" aria-hidden="true">·</span>
+    <span class="kpi-item" title="רענון אחרון">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span id="kpi-last-refresh">—</span>
+    </span>
+    <span class="kpi-sep" aria-hidden="true">·</span>
+    <span class="kpi-item kpi-refresh-running" id="kpi-running-badge" style="display:none" title="ריפרש פועל">
+      <svg class="icon-spin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+      איסוף…
+    </span>
+  </section>
+
+  <!-- Filter bar -->
+  <div class="filter-bar" role="toolbar" aria-label="מסנן תוכן">
+    <div class="filter-group" role="group" aria-label="טווח זמן">
+      <span class="filter-group-label" aria-hidden="true">תקופה:</span>
+      <button class="chip" data-period="today" data-testid="chip-period-today">היום</button>
+      <button class="chip" data-period="last24h" data-testid="chip-period-last24h">24 שעות</button>
+      <button class="chip" data-period="yesterday" data-testid="chip-period-yesterday">אתמול</button>
+      <button class="chip" data-period="week" data-testid="chip-period-week">7 ימים</button>
+      <button class="chip" data-period="month" data-testid="chip-period-month">30 יום</button>
+      <button class="chip active" data-period="all" data-testid="chip-period-all">הכל</button>
+    </div>
+
+    <div class="filter-sep" aria-hidden="true"></div>
+
+    <div class="filter-group" id="source-chips" role="group" aria-label="מקורות">
+      <span class="filter-group-label" aria-hidden="true">מקור:</span>
+      <button class="chip active" data-source="" data-testid="chip-source-all">הכול</button>
+      <!-- Dynamic source chips injected by JS -->
+    </div>
+  </div>
+
+  <!-- Feed container -->
+  <section id="feed-container" aria-label="פיד מאמרים" aria-live="polite">
+    <!-- Skeleton loading state -->
+    <div class="skeleton-feed" id="skeleton-feed" aria-hidden="true">
+      <div class="skeleton-card">
+        <div class="skel skel-img"></div>
+        <div class="skel-body">
+          <div class="skel skel-line w-3-4"></div>
+          <div class="skel skel-line w-full"></div>
+          <div class="skel skel-line w-1-2"></div>
+          <div class="skel skel-line w-1-4"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skel skel-img"></div>
+        <div class="skel-body">
+          <div class="skel skel-line w-full"></div>
+          <div class="skel skel-line w-3-4"></div>
+          <div class="skel skel-line w-1-4"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skel skel-img"></div>
+        <div class="skel-body">
+          <div class="skel skel-line w-1-2"></div>
+          <div class="skel skel-line w-3-4"></div>
+          <div class="skel skel-line w-full"></div>
+          <div class="skel skel-line w-1-4"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Load more -->
+  <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+    <button class="btn-load-more" id="btn-load-more" data-testid="btn-load-more">
+      טען עוד מאמרים
+    </button>
+  </div>
+
+</main>
+
+<footer class="page-footer" role="contentinfo">
+  Intel Media Pulse — ניטור כיסוי מדיה • אינטל ישראל
+</footer>
+
+<!-- ===================================================================
+  JAVASCRIPT — All logic inline, no build step required
+=================================================================== -->
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------
+     STATE
+  ------------------------------------------------------------------ */
+  let state = {
+    period: 'all',
+    source: '',
+    articles: [],
+    displayedCount: 0,
+    PAGE_SIZE: 30,
+    loading: false,
+    initialDone: false,
+    statsData: null,
+    sourcesData: [],
+    pollTimer: null,
+    lastRefresh: null,
+  };
+
+  /* ------------------------------------------------------------------
+     THEME TOGGLE
+  ------------------------------------------------------------------ */
+  (function initTheme() {
+    const html = document.documentElement;
+    const btn = document.querySelector('[data-theme-toggle]');
+    let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    html.setAttribute('data-theme', theme);
+    updateThemeIcon(btn, theme);
+
+    btn && btn.addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', theme);
+      updateThemeIcon(btn, theme);
+    });
+
+    function updateThemeIcon(b, t) {
+      if (!b) return;
+      b.setAttribute('aria-label', 'עבור למצב ' + (t === 'dark' ? 'בהיר' : 'כהה'));
+      b.innerHTML = t === 'dark'
+        ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`
+        : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+    }
+  })();
+
+  /* ------------------------------------------------------------------
+     UTILITIES
+  ------------------------------------------------------------------ */
+  const $ = id => document.getElementById(id);
+  const $$ = sel => document.querySelectorAll(sel);
+
+  function relativeTime(isoStr) {
+    if (!isoStr) return '';
+    let date;
+    try { date = new Date(isoStr); } catch(e) { return ''; }
+    const now = Date.now();
+    const diff = now - date.getTime();
+    if (isNaN(diff)) return '';
+    const mins  = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days  = Math.floor(diff / 86400000);
+    if (mins  < 1)  return 'עכשיו';
+    if (mins  < 60) return `לפני ${mins} דקות`;
+    if (hours < 24) return `לפני ${hours} שעות`;
+    if (days  === 1) return 'אתמול';
+    if (days  < 30) return `לפני ${days} ימים`;
+    return date.toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function dayLabel(isoStr) {
+    if (!isoStr) return '';
+    try {
+      const d = new Date(isoStr);
+      const today = new Date();
+      const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1);
+      const sameDay = (a, b) => a.toDateString() === b.toDateString();
+      if (sameDay(d, today))     return 'היום';
+      if (sameDay(d, yesterday)) return 'אתמול';
+      return d.toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' });
+    } catch(e) { return ''; }
+  }
+
+  function groupByDay(articles) {
+    const groups = new Map();
+    for (const a of articles) {
+      const d = a.published_at ? new Date(a.published_at).toDateString() : 'unknown';
+      if (!groups.has(d)) groups.set(d, []);
+      groups.get(d).push(a);
+    }
+    return groups;
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function formatNum(n) {
+    if (n == null || isNaN(n)) return '—';
+    return n.toLocaleString('he-IL');
+  }
+
+  /* ------------------------------------------------------------------
+     SOURCE COLOR LOOKUP
+  ------------------------------------------------------------------ */
+  function getSourceColor(sourceId) {
+    const src = state.sourcesData.find(s => s.id === sourceId || s.name === sourceId);
+    return src ? src.color : '#6b7280';
+  }
+
+  function getSourceDisplay(article) {
+    const src = state.sourcesData.find(
+      s => s.id === article.source_id || s.name === article.source_id
+    );
+    return src ? src.display_name : (article.source || article.source_id || 'מקור לא ידוע');
+  }
+
+  /* ------------------------------------------------------------------
+     CARD BUILDERS
+  ------------------------------------------------------------------ */
+  function imgOrPlaceholder(url, alt) {
+    if (url) {
+      return `<img src="${esc(url)}" alt="${esc(alt)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'></div>'"/>`;
+    }
+    return `<div class="img-placeholder" aria-hidden="true"></div>`;
+  }
+
+  function buildHeroCard(article) {
+    const sourceColor = getSourceColor(article.source_id);
+    const sourceDisplay = getSourceDisplay(article);
+    const url = esc(article.url);
+    return `
+      <article class="card-hero" data-testid="card-hero-${esc(article.id)}"
+        onclick="window.open('${url}','_blank','noopener')"
+        tabindex="0"
+        role="article"
+        onkeydown="if(event.key==='Enter')window.open('${url}','_blank','noopener')"
+        aria-label="${esc(article.title)}">
+        <div class="card-body">
+          <div>
+            <h2 class="card-title">${esc(article.title)}</h2>
+            ${article.description ? `<p class="card-desc">${esc(article.description)}</p>` : ''}
+          </div>
+          <div class="card-meta">
+            <span class="source-badge">
+              <span class="dot" style="background:${sourceColor}" aria-hidden="true"></span>
+              ${esc(sourceDisplay)}
+            </span>
+            <time class="time-badge" datetime="${esc(article.published_at)}" title="${esc(article.published_at)}">
+              ${relativeTime(article.published_at)}
+            </time>
+            ${article.via === 'tavily' ? '<span class="via-badge">• Tavily</span>' : ''}
+          </div>
+        </div>
+        <div class="card-img" aria-hidden="true">
+          ${imgOrPlaceholder(article.image, article.title)}
+        </div>
+      </article>`;
+  }
+
+  function buildGridCard(article) {
+    const sourceColor = getSourceColor(article.source_id);
+    const sourceDisplay = getSourceDisplay(article);
+    const url = esc(article.url);
+    return `
+      <article class="card-grid" data-testid="card-grid-${esc(article.id)}"
+        onclick="window.open('${url}','_blank','noopener')"
+        tabindex="0" role="article"
+        onkeydown="if(event.key==='Enter')window.open('${url}','_blank','noopener')"
+        aria-label="${esc(article.title)}">
+        <div class="card-img-top" aria-hidden="true">
+          ${imgOrPlaceholder(article.image, article.title)}
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${esc(article.title)}</h3>
+          <div class="card-meta">
+            <span class="source-badge">
+              <span class="dot" style="background:${sourceColor}" aria-hidden="true"></span>
+              ${esc(sourceDisplay)}
+            </span>
+            <time class="time-badge" datetime="${esc(article.published_at)}">
+              ${relativeTime(article.published_at)}
+            </time>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function buildCompactCard(article) {
+    const sourceColor = getSourceColor(article.source_id);
+    const sourceDisplay = getSourceDisplay(article);
+    const url = esc(article.url);
+    return `
+      <article class="card-compact" data-testid="card-compact-${esc(article.id)}"
+        onclick="window.open('${url}','_blank','noopener')"
+        tabindex="0" role="article"
+        onkeydown="if(event.key==='Enter')window.open('${url}','_blank','noopener')"
+        aria-label="${esc(article.title)}">
+        <div class="compact-img" aria-hidden="true">
+          ${imgOrPlaceholder(article.image, article.title)}
+        </div>
+        <div class="compact-content">
+          <h3 class="card-title">${esc(article.title)}</h3>
+          <div class="card-meta" style="margin-top:6px">
+            <span class="source-badge">
+              <span class="dot" style="background:${sourceColor}" aria-hidden="true"></span>
+              ${esc(sourceDisplay)}
+            </span>
+            <time class="time-badge" datetime="${esc(article.published_at)}">
+              ${relativeTime(article.published_at)}
+            </time>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  /* ------------------------------------------------------------------
+     FEED RENDERER
+  ------------------------------------------------------------------ */
+  function renderFeed(articles, replace = true) {
+    const container = $('feed-container');
+    if (!container) return;
+
+    // Remove skeleton
+    const skeleton = $('skeleton-feed');
+    if (skeleton) skeleton.remove();
+
+    if (articles.length === 0) {
+      container.innerHTML = `
+        <div class="state-screen" role="status">
+          <div class="state-icon" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".4">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="state-title">לא נמצאו מאמרים</div>
+          <div class="state-sub">נסה לשנות את הפילטר, לבחור תקופה שונה, או ללחוץ על רענן</div>
+        </div>`;
+      $('load-more-wrap').style.display = 'none';
+      return;
+    }
+
+    // Group by day
+    const dayGroups = groupByDay(articles);
+    let html = '';
+    let globalIdx = 0;
+
+    for (const [, dayArticles] of dayGroups) {
+      // Day separator
+      const dayStr = dayLabel(dayArticles[0].published_at);
+      html += `<div class="day-separator"><span class="day-label">${esc(dayStr)}</span></div>`;
+
+      let i = 0;
+      while (i < dayArticles.length) {
+        // Hero card every ~6 items
+        if (i % 6 === 0) {
+          html += buildHeroCard(dayArticles[i]);
+          i++;
+          globalIdx++;
+        }
+        // Grid row of up to 3
+        else if (i % 6 >= 1 && i % 6 <= 3 && i + 2 < dayArticles.length) {
+          html += '<div class="card-grid-row">';
+          for (let j = 0; j < 3 && i < dayArticles.length; j++, i++, globalIdx++) {
+            html += buildGridCard(dayArticles[i]);
+          }
+          html += '</div>';
+        }
+        // Compact cards
+        else {
+          html += buildCompactCard(dayArticles[i]);
+          i++;
+          globalIdx++;
+        }
+      }
+    }
+
+    if (replace) {
+      container.innerHTML = html;
+    } else {
+      container.insertAdjacentHTML('beforeend', html);
+    }
+
+    // Load more button
+    const lmw = $('load-more-wrap');
+    if (lmw) {
+      lmw.style.display = state.displayedCount < state.articles.length ? 'flex' : 'none';
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     STATS UPDATER
+  ------------------------------------------------------------------ */
+  function updateStats(data) {
+    if (!data) return;
+    $('stat-today').textContent  = formatNum(data.total_today);
+    $('stat-week').textContent   = formatNum(data.total_week);
+    $('stat-month').textContent  = formatNum(data.total_month);
+
+    const delta  = data.wow_delta;
+    const pct    = data.wow_pct;
+    const trendValue = $('stat-trend-value');
+    const tw = $('trend-week');
+    const twSecondary = $('trend-week-secondary');
+
+    if (trendValue) {
+      if (delta > 0) {
+        trendValue.textContent = `↑ ${formatNum(Math.abs(pct))}%`;
+        trendValue.style.color = 'var(--up-color)';
+      } else if (delta < 0) {
+        trendValue.textContent = `↓ ${formatNum(Math.abs(pct))}%`;
+        trendValue.style.color = 'var(--down-color)';
+      } else {
+        trendValue.textContent = '0%';
+        trendValue.style.color = 'var(--intel-blue)';
+      }
+    }
+
+    if (tw) {
+      if (delta > 0) {
+        tw.className = 'stat-trend up';
+        tw.textContent = 'עלייה מול השבוע שעבר';
+      } else if (delta < 0) {
+        tw.className = 'stat-trend down';
+        tw.textContent = 'ירידה מול השבוע שעבר';
+      } else {
+        tw.className = 'stat-trend flat';
+        tw.textContent = 'ללא שינוי';
+      }
+    }
+
+    const tToday = $('trend-today');
+    if (tToday) {
+      tToday.className = data.total_today > 0 ? 'stat-trend up' : 'stat-trend flat';
+      tToday.textContent = data.total_today > 0 ? 'אייטמים מהיום' : 'אין אייטמים מהיום';
+    }
+    if (twSecondary) {
+      twSecondary.className = 'stat-trend flat';
+      twSecondary.textContent = `${formatNum(data.total_last_week)} בשבוע הקודם`;
+    }
+    const tMonth = $('trend-month');
+    if (tMonth) {
+      tMonth.className = 'stat-trend flat';
+      tMonth.textContent = `${formatNum(data.total_all)} בארכיון הכולל`;
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     SOURCE CHIPS
+  ------------------------------------------------------------------ */
+  function renderSourceChips(sources) {
+    const group = $('source-chips');
+    if (!group) return;
+
+    group.querySelectorAll('[data-source]:not([data-source=""])').forEach(el => el.remove());
+
+    const deduped = [];
+    const seenLabels = new Set();
+    for (const src of sources || []) {
+      const label = (src.display_name || src.name || '').trim();
+      if (!label) continue;
+      const key = label.toLowerCase();
+      if (seenLabels.has(key)) continue;
+      seenLabels.add(key);
+      deduped.push(src);
+    }
+
+    const relevant = deduped.sort((a, b) => {
+      const an = (a.display_name || a.name || '').toLowerCase();
+      const bn = (b.display_name || b.name || '').toLowerCase();
+      return an.localeCompare(bn, 'he');
+    });
+
+    for (const src of relevant) {
+      const btn = document.createElement('button');
+      btn.className = 'chip' + (state.source === src.id ? ' active' : '');
+      btn.setAttribute('data-source', src.id);
+      btn.setAttribute('data-testid', `chip-source-${src.id}`);
+      btn.setAttribute('aria-pressed', state.source === src.id ? 'true' : 'false');
+      btn.innerHTML = `<span class="dot" style="background:${src.color}" aria-hidden="true"></span>${esc(src.display_name || src.name)}`;
+      group.appendChild(btn);
+    }
+
+    group.querySelectorAll('[data-source]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.source = btn.dataset.source;
+        group.querySelectorAll('[data-source]').forEach(b => {
+          b.classList.toggle('active', b.dataset.source === state.source);
+          b.setAttribute('aria-pressed', b.dataset.source === state.source ? 'true' : 'false');
+        });
+        loadArticles();
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     NOTICE BAR
+  ------------------------------------------------------------------ */
+  function showNotice(type, msg) {
+    const bar = $('notice-bar');
+    const txt = $('notice-text');
+    if (!bar || !txt) return;
+    bar.className = `notice-bar ${type}`;
+    txt.textContent = msg;
+    bar.style.display = 'flex';
+  }
+
+  function hideNotice() {
+    const bar = $('notice-bar');
+    if (bar) bar.style.display = 'none';
+  }
+
+  /* ------------------------------------------------------------------
+     API CALLS
+  ------------------------------------------------------------------ */
+  async function fetchJSON(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  }
+
+  async function loadStats() {
+    try {
+      const data = await fetchJSON('/api/stats');
+      state.statsData = data;
+      updateStats(data);
+    } catch (e) {
+      console.warn('Stats fetch failed:', e);
+    }
+  }
+
+  async function loadSources() {
+    try {
+      const data = await fetchJSON('/api/sources');
+      state.sourcesData = data.sources || [];
+      renderSourceChips(state.sourcesData);
+    } catch (e) {
+      console.warn('Sources fetch failed:', e);
+    }
+  }
+
+  async function loadArticles() {
+    state.loading = true;
+    state.displayedCount = 0;
+
+    let url = `/api/articles?period=${encodeURIComponent(state.period)}&limit=${state.PAGE_SIZE}`;
+    if (state.source) url += `&source=${encodeURIComponent(state.source)}`;
+
+    try {
+      const data = await fetchJSON(url);
+      state.articles = data.articles || [];
+      state.displayedCount = state.articles.length;
+
+      // Check refresh status
+      const rs = data.refresh_status || {};
+      if (rs.running) {
+        showNotice('info', 'איסוף מאמרים מתבצע ברקע…');
+      } else if (rs.last_error) {
+        showNotice('err', `שגיאה בזמן האיסוף: ${rs.last_error}`);
+      } else {
+        hideNotice();
+      }
+
+      renderFeed(state.articles);
+      renderSourceChips(state.sourcesData);
+
+    } catch (e) {
+      console.error('Articles fetch failed:', e);
+      showNotice('err', 'לא הצלחנו לטעון מאמרים. האם השרת פועל?');
+      const container = $('feed-container');
+      if (container) {
+        container.innerHTML = `
+          <div class="state-screen" role="alert">
+            <div class="state-icon" aria-hidden="true">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".4">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+              </svg>
+            </div>
+            <div class="state-title">שגיאת חיבור</div>
+            <div class="state-sub">לא ניתן לגשת ל-API. ודא שהשרת פועל על localhost:8000</div>
+          </div>`;
+      }
+    } finally {
+      state.loading = false;
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     POLLING — wait for initial collection to finish
+  ------------------------------------------------------------------ */
+  async function pollUntilReady() {
+    try {
+      const status = await fetchJSON('/api/status');
+      if (status.article_count > 0 && !state.initialDone) {
+        await Promise.all([loadStats(), loadSources(), loadArticles()]);
+      }
+      if (status.initial_done) {
+        state.initialDone = true;
+        clearInterval(state.pollTimer);
+        state.pollTimer = null;
+        await Promise.all([loadStats(), loadSources(), loadArticles()]);
+        updateLastUpdated(status.last_run);
+        if (!TAVILY_KEY_PRESENT && status.article_count === 0) {
+          showNotice('warn', 'אין מפתח Tavily — המערכת עובדת עם Google News RSS בלבד. ייתכן שכמות המאמרים קטנה יותר.');
+        }
+      } else {
+        showNotice('info', status.running ? 'האיסוף מתבצע ברקע. הפיד מציג את הכתבות העבריות שכבר זמינות.' : 'מאתחל…');
+      }
+    } catch (e) {
+      // Server not ready yet — keep polling
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     ADMIN KPI STRIP
+  ------------------------------------------------------------------ */
+  async function updateAdminKpi() {
+    try {
+      const [status, quality] = await Promise.all([
+        fetchJSON('/api/status'),
+        fetchJSON('/api/quality').catch(() => null),
+      ]);
+
+      const srcEl = $('kpi-sources');
+      if (srcEl) {
+        const mon = (status.source_monitoring) || {};
+        srcEl.textContent = mon.active_sources_total ?? '—';
+      }
+
+      const imgEl = $('kpi-img-coverage');
+      if (imgEl && quality && quality.images) {
+        imgEl.textContent = quality.images.coverage_pct?.toFixed(1) ?? '—';
+      }
+
+      const refreshEl = $('kpi-last-refresh');
+      if (refreshEl && status.last_run) {
+        refreshEl.textContent = `רענון ${relativeTime(status.last_run)}`;
+      }
+
+      const runningBadge = $('kpi-running-badge');
+      if (runningBadge) {
+        runningBadge.style.display = status.running ? 'inline-flex' : 'none';
+      }
+    } catch (_e) { /* non-critical */ }
+  }
+
+  /* ------------------------------------------------------------------
+     LAST UPDATED DISPLAY
+  ------------------------------------------------------------------ */
+  function updateLastUpdated(isoStr) {
+    const el = $('last-updated-text');
+    if (!el || !isoStr) return;
+    el.textContent = `עודכן ${relativeTime(isoStr)}`;
+  }
+
+  /* ------------------------------------------------------------------
+     PERIOD CHIPS
+  ------------------------------------------------------------------ */
+  $$('[data-period]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.period = btn.dataset.period;
+      $$('[data-period]').forEach(b => {
+        b.classList.toggle('active', b.dataset.period === state.period);
+        b.setAttribute('aria-pressed', b.dataset.period === state.period ? 'true' : 'false');
+      });
+      loadArticles();
+      loadStats();
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     REFRESH BUTTON
+  ------------------------------------------------------------------ */
+  const refreshBtn = $('btn-refresh');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', async () => {
+      if (state.loading) return;
+      refreshBtn.classList.add('spinning');
+      refreshBtn.disabled = true;
+      try {
+        await fetch('/api/refresh', { method: 'POST' });
+        showNotice('info', 'רענון הופעל — המתן מספר שניות…');
+        // Poll for completion
+        let attempts = 0;
+        const poll = setInterval(async () => {
+          attempts++;
+          try {
+            const st = await fetchJSON('/api/status');
+            if (!st.running || attempts > 60) {
+              clearInterval(poll);
+              refreshBtn.classList.remove('spinning');
+              refreshBtn.disabled = false;
+              await Promise.all([loadStats(), loadArticles()]);
+              updateLastUpdated(st.last_run);
+              if (!st.running) hideNotice();
+            }
+          } catch(e) {
+            clearInterval(poll);
+            refreshBtn.classList.remove('spinning');
+            refreshBtn.disabled = false;
+          }
+        }, 2000);
+      } catch (e) {
+        refreshBtn.classList.remove('spinning');
+        refreshBtn.disabled = false;
+        showNotice('err', 'הרענון נכשל — ודא שהשרת פועל.');
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     LOAD MORE
+  ------------------------------------------------------------------ */
+  const lmBtn = $('btn-load-more');
+  if (lmBtn) {
+    lmBtn.addEventListener('click', async () => {
+      const nextCount = state.displayedCount + state.PAGE_SIZE;
+      const url = `/api/articles?period=${encodeURIComponent(state.period)}&limit=${nextCount}`
+        + (state.source ? `&source=${encodeURIComponent(state.source)}` : '');
+      try {
+        const data = await fetchJSON(url);
+        state.articles = data.articles || [];
+        state.displayedCount = state.articles.length;
+        renderFeed(state.articles);
+      } catch(e) {
+        showNotice('err', 'טעינת מאמרים נוספים נכשלה');
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     DETECT TAVILY KEY (check via status endpoint)
+  ------------------------------------------------------------------ */
+  let TAVILY_KEY_PRESENT = false;
+
+  /* ------------------------------------------------------------------
+     BOOT
+  ------------------------------------------------------------------ */
+  async function boot() {
+    // Check initial status
+    try {
+      const status = await fetchJSON('/api/status');
+      TAVILY_KEY_PRESENT = true; // if we got here server is up; actual key check below
+      updateLastUpdated(status.last_run);
+
+      if (status.initial_done) {
+        state.initialDone = true;
+        await Promise.all([loadStats(), loadSources(), loadArticles()]);
+        if (status.last_error) showNotice('warn', `שגיאה בזמן האיסוף האחרון: ${status.last_error}`);
+      } else if (status.article_count > 0) {
+        await Promise.all([loadStats(), loadSources(), loadArticles()]);
+        showNotice('info', 'הפיד מציג את הכתבות העבריות הקיימות בזמן שהאיסוף מתעדכן ברקע.');
+        state.pollTimer = setInterval(pollUntilReady, 3000);
+      } else {
+        // Server just started — poll until initial collection done
+        showNotice('info', 'בעת ההפעלה הראשונה המערכת אוספת מאמרים בעברית בלבד… ייתכן שיידרשו 30–60 שניות.');
+        state.pollTimer = setInterval(pollUntilReady, 3000);
+      }
+    } catch (e) {
+      showNotice('err', 'לא ניתן להתחבר לשרת. ודא כי FastAPI פועל על localhost:8000');
+      // Remove skeleton
+      const sk = $('skeleton-feed');
+      if (sk) sk.remove();
+      const container = $('feed-container');
+      if (container) {
+        container.innerHTML = `
+          <div class="state-screen" role="alert">
+            <div class="state-icon" aria-hidden="true">
+              <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".3">
+                <path d="M18.36 6.64A9 9 0 0 1 20.77 15M5.64 17.36A9 9 0 0 1 3.23 9M10.9 2.1A9 9 0 0 1 21.9 13.1"/>
+                <line x1="2" y1="2" x2="22" y2="22"/>
+              </svg>
+            </div>
+            <div class="state-title">אין חיבור לשרת</div>
+            <div class="state-sub">הפעל את השרת עם <code>uvicorn app:app --reload</code> ורענן את הדף</div>
+          </div>`;
+      }
+    }
+  }
+
+  boot();
+  updateAdminKpi();
+  // Refresh KPI strip every 60 seconds
+  setInterval(updateAdminKpi, 60_000);
+
+})();
+</script>
+</body>
+</html>

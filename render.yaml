@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: intel-media-pulse
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: CACHE_MAX_DAYS
+        value: "90"
+      - key: ENRICH_LIMIT
+        value: "220"
+      - key: SITE_QUERY_LIMIT
+        value: "20"
+      - key: BODY_INTEL_MIN_HITS
+        value: "5"
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+    disk:
+      name: data
+      mountPath: /opt/render/project/src
+      sizeGB: 1
