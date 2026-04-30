@@ -2531,7 +2531,7 @@ async def get_quality():
     return JSONResponse(content={"error": "quality_report.json not yet available — run a refresh first"}, status_code=404)
 
 
-@app.get("/api/status")
+@app.api_route("/api/status", methods=["GET", "HEAD"])
 async def get_status():
     """Lightweight status endpoint for frontend polling."""
     articles = [_sanitize_article(a) for a in _load_articles() if _is_supported_article(a)]
