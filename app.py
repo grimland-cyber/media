@@ -2212,12 +2212,14 @@ async def collect_articles() -> None:
 @app.on_event("startup")
 async def startup_event():
     """On startup: kick off initial collection + schedule recurring jobs."""
-    # Schedule daily collection at 06:00 Jerusalem time
+    # Schedule article collection every 30 minutes
     scheduler.add_job(
         collect_articles,
-        CronTrigger(hour=6, minute=0, timezone="Asia/Jerusalem"),
+        CronTrigger(minute="*/30", timezone="Asia/Jerusalem"),
         id="daily_collect",
         replace_existing=True,
+        max_instances=1,
+        coalesce=True,
     )
     # Schedule weekly discovery every Sunday at 04:00
     scheduler.add_job(

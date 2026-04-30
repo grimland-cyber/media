@@ -1688,6 +1688,27 @@
     Promise.all([loadStats(), loadArticles()]).catch(() => {});
   }, 5 * 60 * 1000);
 
+  // Poll status every 20s to show "מתבצע איסוף" indicator when scheduler runs
+  let _wasRunning = false;
+  setInterval(async () => {
+    if (document.hidden) return;
+    try {
+      const st = await fetchJSON('/api/status');
+      const running = !!st.running;
+      if (running && !_wasRunning) {
+        showNotice('info', 'מתבצע איסוף כתבות ברקע…');
+      } else if (!running && _wasRunning) {
+        // Just finished — refresh feed
+        hideNotice();
+        if (!state.loading) {
+          await Promise.all([loadStats(), loadArticles()]);
+        }
+        updateLastUpdated(st.last_run);
+      }
+      _wasRunning = running;
+    } catch (_) { /* ignore */ }
+  }, 20_000);
+
 })();
 </script>
 </body>
