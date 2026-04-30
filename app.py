@@ -1163,6 +1163,12 @@ async def _enrich_article(
             if "resolved_url" not in article:
                 article["resolved_url"] = resolved
 
+    # Strip URL fragment (e.g. "#utm_source=RSS" appended by feeds) — some
+    # publisher pages choke on fragments and serve a shell page without
+    # og:image meta. The fragment is irrelevant for fetching the page.
+    if "#" in enrich_url:
+        enrich_url = enrich_url.split("#", 1)[0]
+
     if TAVILY_API_KEY:
         # Strategy: OG is the authoritative source for article images
         # (publisher-controlled og:image meta). Tavily frequently returns
@@ -1195,9 +1201,14 @@ async def _enrich_article(
             "description": og.get("og_description", ""),
         }
 
-    # Cache and merge
+    # Cache and merge — UPDATE existing cache entry rather than overwrite,
+    # to preserve verified_published_at, date_checked_at, body_intel, etc.
     if enriched.get("image") or enriched.get("description"):
-        cache[uid] = enriched
+        existing = cache.get(uid, {}) if isinstance(cache.get(uid), dict) else {}
+        for k, v in enriched.items():
+            if v:  # don't overwrite with empty values
+                existing[k] = v
+        cache[uid] = existing
         if enriched.get("image") and ((not article.get("image")) or _is_weak_image_url(article.get("image", ""))):
             article["image"] = enriched.get("image", "")
         if enriched.get("description") and not article.get("description"):
