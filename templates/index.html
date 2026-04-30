@@ -837,7 +837,7 @@
       class="btn-refresh"
       id="btn-refresh"
       aria-label="רענן נתונים"
-      title="רענן איסוף מאמרים"
+      title="רענן איסוף כתבות"
     >
       <svg class="icon-refresh" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
@@ -926,7 +926,6 @@
     <div class="filter-group" role="group" aria-label="טווח זמן">
       <span class="filter-group-label" aria-hidden="true">תקופה:</span>
       <button class="chip" data-period="today" data-testid="chip-period-today">היום</button>
-      <button class="chip" data-period="last24h" data-testid="chip-period-last24h">24 שעות</button>
       <button class="chip" data-period="yesterday" data-testid="chip-period-yesterday">אתמול</button>
       <button class="chip" data-period="week" data-testid="chip-period-week">7 ימים</button>
       <button class="chip" data-period="month" data-testid="chip-period-month">30 יום</button>
@@ -943,7 +942,7 @@
   </div>
 
   <!-- Feed container -->
-  <section id="feed-container" aria-label="פיד מאמרים" aria-live="polite">
+  <section id="feed-container" aria-label="פיד כתבות" aria-live="polite">
     <!-- Skeleton loading state -->
     <div class="skeleton-feed" id="skeleton-feed" aria-hidden="true">
       <div class="skeleton-card">
@@ -978,7 +977,7 @@
   <!-- Load more -->
   <div class="load-more-wrap" id="load-more-wrap" style="display:none">
     <button class="btn-load-more" id="btn-load-more" data-testid="btn-load-more">
-      טען עוד מאמרים
+      טען עוד כתבות
     </button>
   </div>
 
@@ -1231,7 +1230,7 @@
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
-          <div class="state-title">לא נמצאו מאמרים</div>
+          <div class="state-title">לא נמצאו כתבות</div>
           <div class="state-sub">נסה לשנות את הפילטר, לבחור תקופה שונה, או ללחוץ על רענן</div>
         </div>`;
       $('load-more-wrap').style.display = 'none';
@@ -1452,7 +1451,7 @@
       // Check refresh status
       const rs = data.refresh_status || {};
       if (rs.running) {
-        showNotice('info', 'איסוף מאמרים מתבצע ברקע…');
+        showNotice('info', 'איסוף כתבות מתבצע ברקע…');
       } else if (rs.last_error) {
         showNotice('err', `שגיאה בזמן האיסוף: ${rs.last_error}`);
       } else {
@@ -1464,7 +1463,7 @@
 
     } catch (e) {
       console.error('Articles fetch failed:', e);
-      showNotice('err', 'לא הצלחנו לטעון מאמרים. האם השרת פועל?');
+      showNotice('err', 'לא הצלחנו לטעון כתבות. האם השרת פועל?');
       const container = $('feed-container');
       if (container) {
         container.innerHTML = `
@@ -1499,7 +1498,7 @@
         await Promise.all([loadStats(), loadSources(), loadArticles()]);
         updateLastUpdated(status.last_run);
         if (!TAVILY_KEY_PRESENT && status.article_count === 0) {
-          showNotice('warn', 'אין מפתח Tavily — המערכת עובדת עם Google News RSS בלבד. ייתכן שכמות המאמרים קטנה יותר.');
+          showNotice('warn', 'אין מפתח Tavily — המערכת עובדת עם Google News RSS בלבד. ייתכן שכמות הכתבות קטנה יותר.');
         }
       } else {
         showNotice('info', status.running ? 'האיסוף מתבצע ברקע. הפיד מציג את הכתבות העבריות שכבר זמינות.' : 'מאתחל…');
@@ -1621,7 +1620,7 @@
         state.displayedCount = state.articles.length;
         renderFeed(state.articles);
       } catch(e) {
-        showNotice('err', 'טעינת מאמרים נוספים נכשלה');
+        showNotice('err', 'טעינת כתבות נוספות נכשלה');
       }
     });
   }
@@ -1651,7 +1650,7 @@
         state.pollTimer = setInterval(pollUntilReady, 3000);
       } else {
         // Server just started — poll until initial collection done
-        showNotice('info', 'בעת ההפעלה הראשונה המערכת אוספת מאמרים בעברית בלבד… ייתכן שיידרשו 30–60 שניות.');
+        showNotice('info', 'בעת ההפעלה הראשונה המערכת אוספת כתבות בעברית בלבד… ייתכן שיידרשו 30–60 שניות.');
         state.pollTimer = setInterval(pollUntilReady, 3000);
       }
     } catch (e) {
@@ -1680,6 +1679,14 @@
   updateAdminKpi();
   // Refresh KPI strip every 60 seconds
   setInterval(updateAdminKpi, 60_000);
+
+  // Auto-refresh feed every 5 minutes (only when tab is visible and initial load done)
+  setInterval(() => {
+    if (document.hidden) return;
+    if (!state.initialDone) return;
+    if (state.loading) return;
+    Promise.all([loadStats(), loadArticles()]).catch(() => {});
+  }, 5 * 60 * 1000);
 
 })();
 </script>
