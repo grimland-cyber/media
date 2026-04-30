@@ -2113,20 +2113,28 @@ async def collect_articles() -> None:
                     verified = _infer_legacy_date_from_url(target_url)
 
                 if verified:
-                    # Log dramatic drift (e.g. Maariv breaking-news items
-                    # whose RSS pubDate points to "now" while the real
-                    # article is months old).
+                    # Trust verified date only when it is REASONABLY close
+                    # to the RSS-reported date. Many publishers (Globes,
+                    # Bizportal, etc.) emit a stale/template og:date that
+                    # points to ancient years (e.g. 2007). When the drift
+                    # exceeds 7 days, prefer the RSS date and discard the
+                    # bogus publisher meta to avoid losing fresh articles.
                     verified_dt = _parse_any_date(verified)
-                    if reported_dt and verified_dt and abs(
-                        (reported_dt - verified_dt).total_seconds()
-                    ) > 7 * 24 * 3600:
+                    drift_too_large = (
+                        reported_dt is not None
+                        and verified_dt is not None
+                        and abs((reported_dt - verified_dt).total_seconds()) > 7 * 24 * 3600
+                    )
+                    if drift_too_large:
                         log.info(
-                            "Date verify drift >7d on %s: rss=%s publisher=%s",
+                            "Date verify drift >7d on %s: rss=%s publisher=%s -- keeping RSS date",
                             target_url,
                             a.get("published_at"),
                             verified,
                         )
-                    entry["verified_published_at"] = verified
+                        # Do NOT cache the bogus verified date.
+                    else:
+                        entry["verified_published_at"] = verified
                 entry["date_checked_at"] = now_utc.isoformat()
 
             await asyncio.gather(*[_verify_one_date(a) for a in verify_targets], return_exceptions=True)
