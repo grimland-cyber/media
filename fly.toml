@@ -1,0 +1,29 @@
+app = "intel-media-pulse-he"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  DATA_DIR = "/data"
+  CACHE_MAX_DAYS = "90"
+  ENRICH_LIMIT = "220"
+  SITE_QUERY_LIMIT = "20"
+  BODY_INTEL_MIN_HITS = "5"
+
+[[mounts]]
+  source = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 40
+    soft_limit = 20

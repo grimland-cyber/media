@@ -33,6 +33,7 @@ import urllib.parse
 import urllib.request
 import re
 import html
+import shutil
 
 # Force IPv4 globally — the corporate network has broken/blackholed IPv6 to
 # Google + most external publishers. Python's default `socket.getaddrinfo`
@@ -84,10 +85,30 @@ from gnews_url_resolver import GoogleNewsURLResolver
 load_dotenv()
 
 BASE_DIR = Path(__file__).parent
-SOURCES_FILE = BASE_DIR / "sources.json"
-ARTICLES_FILE = BASE_DIR / "articles.json"
-CACHE_FILE = BASE_DIR / "article_cache.json"  # enrichment cache keyed by URL
-QUALITY_REPORT_FILE = BASE_DIR / "quality_report.json"
+DATA_DIR = Path(os.getenv("DATA_DIR", str(BASE_DIR))).expanduser()
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+SOURCES_FILE = DATA_DIR / "sources.json"
+ARTICLES_FILE = DATA_DIR / "articles.json"
+CACHE_FILE = DATA_DIR / "article_cache.json"  # enrichment cache keyed by URL
+QUALITY_REPORT_FILE = DATA_DIR / "quality_report.json"
+
+
+def _seed_data_file(target: Path, source_name: str) -> None:
+    """Populate DATA_DIR from repo defaults on first boot."""
+    if target.exists():
+        return
+    src = BASE_DIR / source_name
+    if src.exists():
+        try:
+            shutil.copyfile(src, target)
+        except OSError:
+            pass
+
+
+_seed_data_file(SOURCES_FILE, "sources.json")
+_seed_data_file(ARTICLES_FILE, "articles.json")
+_seed_data_file(CACHE_FILE, "article_cache.json")
+_seed_data_file(QUALITY_REPORT_FILE, "quality_report.json")
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "").strip()
 # Hard retention window for persisted articles.
