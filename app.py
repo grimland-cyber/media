@@ -120,6 +120,10 @@ BODY_CHECK_LIMIT = int(os.getenv("BODY_CHECK_LIMIT", "50"))
 ENRICH_LIMIT = int(os.getenv("ENRICH_LIMIT", "220"))
 # Max body text length (chars) scanned for Intel keywords.
 BODY_CHECK_CHARS = 120_000
+# Maximum refresh runtime before we treat an in-memory running state as stale.
+# This prevents the dashboard from getting stuck in "already running" forever
+# after a hung task or an interrupted worker lifecycle.
+REFRESH_STALE_MINUTES = int(os.getenv("REFRESH_STALE_MINUTES", "60"))
 
 # Intel keywords for relevance filtering
 INTEL_KEYWORDS_HE = ["אינטל", "Intel"]
@@ -212,6 +216,7 @@ app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 # In-memory refresh status
 _refresh_status = {
     "running": False,
+    "running_since": None,
     "last_run": None,
     "last_error": None,
     "initial_done": False,
@@ -219,6 +224,35 @@ _refresh_status = {
     "source_monitoring": {},
 }
 scheduler = AsyncIOScheduler(timezone="Asia/Jerusalem")
+
+
+def _reset_stale_refresh_if_needed() -> None:
+    """Clear stale running flag if a refresh appears stuck past TTL."""
+    if not _refresh_status.get("running"):
+        return
+
+    running_since_raw = _refresh_status.get("running_since")
+    if not running_since_raw:
+        return
+
+    started_at = _parse_any_date(running_since_raw)
+    if not started_at:
+        return
+
+    max_age = timedelta(minutes=REFRESH_STALE_MINUTES)
+    if datetime.now(timezone.utc) - started_at <= max_age:
+        return
+
+    log.warning(
+        "Detected stale refresh lock older than %s minutes (since %s); resetting state",
+        REFRESH_STALE_MINUTES,
+        running_since_raw,
+    )
+    _refresh_status["running"] = False
+    _refresh_status["running_since"] = None
+    _refresh_status["last_error"] = (
+        "Previous refresh lock was reset automatically after timeout"
+    )
 
 # ---------------------------------------------------------------------------
 # JSON file helpers
@@ -1671,11 +1705,13 @@ async def collect_articles() -> None:
     4. Enrich missing images/descriptions
     5. Dedupe by URL; save to articles.json
     """
+    _reset_stale_refresh_if_needed()
     if _refresh_status["running"]:
         log.info("collect_articles: already running, skipping")
         return
 
     _refresh_status["running"] = True
+    _refresh_status["running_since"] = datetime.now(timezone.utc).isoformat()
     _refresh_status["last_error"] = None
     start_ts = time.monotonic()
 
@@ -2243,6 +2279,7 @@ async def collect_articles() -> None:
 
     finally:
         _refresh_status["running"] = False
+        _refresh_status["running_since"] = None
 
 
 # ---------------------------------------------------------------------------
@@ -2422,6 +2459,7 @@ async def get_articles(
 @app.post("/api/refresh")
 async def manual_refresh():
     """Trigger a manual article collection run."""
+    _reset_stale_refresh_if_needed()
     if _refresh_status["running"]:
         return JSONResponse(
             content={"status": "already_running", "message": "איסוף נמצא כבר בריצה"},
@@ -2555,10 +2593,12 @@ async def get_quality():
 @app.api_route("/api/status", methods=["GET", "HEAD"])
 async def get_status():
     """Lightweight status endpoint for frontend polling."""
+    _reset_stale_refresh_if_needed()
     articles = [_sanitize_article(a) for a in _load_articles() if _is_supported_article(a)]
     return JSONResponse(
         content={
             "running": _refresh_status["running"],
+            "running_since": _refresh_status.get("running_since"),
             "initial_done": _refresh_status["initial_done"],
             "last_run": _refresh_status["last_run"],
             "last_error": _refresh_status["last_error"],
