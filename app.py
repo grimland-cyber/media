@@ -92,6 +92,76 @@ ARTICLES_FILE = DATA_DIR / "articles.json"
 CACHE_FILE = DATA_DIR / "article_cache.json"  # enrichment cache keyed by URL
 QUALITY_REPORT_FILE = DATA_DIR / "quality_report.json"
 
+# Logging is configured early (before the Supabase helpers below) because
+# Render's filesystem is ephemeral: local JSON files are wiped on every
+# container restart, and we need `log` available for the pull-on-boot step.
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+log = logging.getLogger("intel-media-pulse")
+
+# ---------------------------------------------------------------------------
+# Supabase persistence (survives Render container restarts/redeploys)
+# ---------------------------------------------------------------------------
+# Render's disk is ephemeral, so articles/sources are mirrored to a Supabase
+# `kv_store` table (key text primary key, value jsonb) on every write, and
+# pulled back down at boot — before the repo-default seed fallback below.
+_SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
+_SUPABASE_KEY = (
+    os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_ANON_KEY") or ""
+).strip()
+
+
+def _supabase_enabled() -> bool:
+    return bool(_SUPABASE_URL and _SUPABASE_KEY)
+
+
+def _supabase_pull(target: Path, key: str) -> None:
+    """Restore a JSON blob from Supabase into the local file, if present."""
+    if not _supabase_enabled():
+        return
+    try:
+        req = urllib.request.Request(
+            f"{_SUPABASE_URL}/rest/v1/kv_store?key=eq.{key}&select=value",
+            headers={"apikey": _SUPABASE_KEY, "Authorization": f"Bearer {_SUPABASE_KEY}"},
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            rows = json.loads(resp.read().decode("utf-8"))
+        if rows and rows[0].get("value") is not None:
+            target.write_text(
+                json.dumps(rows[0]["value"], ensure_ascii=False), encoding="utf-8"
+            )
+            log.info("Restored %s from Supabase", key)
+    except Exception as exc:
+        log.warning("Supabase pull failed for %s: %s", key, exc)
+
+
+def _supabase_push(key: str, data) -> None:
+    """Persist a JSON blob to Supabase (fire-and-forget, runs off the event loop)."""
+    if not _supabase_enabled():
+        return
+    try:
+        payload = json.dumps({"key": key, "value": data}, ensure_ascii=False, default=str).encode(
+            "utf-8"
+        )
+        req = urllib.request.Request(
+            f"{_SUPABASE_URL}/rest/v1/kv_store?on_conflict=key",
+            data=payload,
+            method="POST",
+            headers={
+                "apikey": _SUPABASE_KEY,
+                "Authorization": f"Bearer {_SUPABASE_KEY}",
+                "Content-Type": "application/json",
+                "Prefer": "resolution=merge-duplicates",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            resp.read()
+    except Exception as exc:
+        log.warning("Supabase push failed for %s: %s", key, exc)
+
 
 def _seed_data_file(target: Path, source_name: str) -> None:
     """Populate DATA_DIR from repo defaults on first boot."""
@@ -104,6 +174,12 @@ def _seed_data_file(target: Path, source_name: str) -> None:
         except OSError:
             pass
 
+
+# Restore last-known state from Supabase first (survives restarts); the
+# repo-default seed below only kicks in if Supabase has no data yet
+# (brand-new deployment) or SUPABASE_URL/KEY isn't configured.
+_supabase_pull(ARTICLES_FILE, "articles")
+_supabase_pull(SOURCES_FILE, "sources")
 
 _seed_data_file(SOURCES_FILE, "sources.json")
 _seed_data_file(ARTICLES_FILE, "articles.json")
@@ -195,13 +271,7 @@ _GNEWS_RESOLVER = GoogleNewsURLResolver(
     cache_ttl_hours=7 * 24  # Cache for 7 days
 )
 
-# Logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-log = logging.getLogger("intel-media-pulse")
+# (logging is configured earlier, right after DATA_DIR, so Supabase pull-on-boot can log)
 
 # ---------------------------------------------------------------------------
 # App init
@@ -258,6 +328,16 @@ def _reset_stale_refresh_if_needed() -> None:
 # JSON file helpers
 # ---------------------------------------------------------------------------
 
+# Only articles/sources are mirrored to Supabase — cache and quality_report
+# are cheap to rebuild on next collection run, so skipping them avoids extra
+# network calls on the hottest write paths (cache is written several times
+# per collect_articles() run).
+_SUPABASE_SYNC_KEYS = {
+    ARTICLES_FILE: "articles",
+    SOURCES_FILE: "sources",
+}
+
+
 def _read_json(path: Path, default):
     """Read JSON from disk; return default on error."""
     try:
@@ -270,11 +350,15 @@ def _read_json(path: Path, default):
 
 
 def _write_json(path: Path, data) -> None:
-    """Atomically write JSON to disk."""
+    """Atomically write JSON to disk, then mirror to Supabase (survives Render restarts)."""
     tmp = path.with_suffix(".tmp")
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2, default=str)
     tmp.replace(path)
+    key = _SUPABASE_SYNC_KEYS.get(path)
+    if key:
+        # Fire-and-forget: don't block the (often async) caller on network I/O.
+        _THREAD_POOL.submit(_supabase_push, key, data)
 
 
 def _load_sources() -> list[dict]:
